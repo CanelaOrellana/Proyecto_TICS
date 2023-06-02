@@ -1,6 +1,9 @@
 import Adafruit_DHT
 import RPi.GPIO as GPIO
 import numpy as np
+from utils import Memory
+import time
+import matplotlib.pyplot as plt
 
 pin = 4
 GPIO.setmode(GPIO.BCM) 
@@ -19,12 +22,17 @@ def medicion():
 	    	print("Error al leer los datos del sensor.")
 	return(humidity,temperature)
 
-def grafico(trigger_msg, humidity, temperature, max_n = 50):
-	humedad = np.zeros(max_n)
-	temperatura = np.zeros(max_n)
-	humidity,temperature = medicion()
+def graph(trigger_msg,temp,hum):
+	# Recibe memorias de humedad y temperatura y va graficando 
+	while trigger_msg is not False:
+		time.sleep(10)
+		humidity,temperature = medicion()
+		temp.add(temperature)
+		hum.add(humidity)
 	pass
-
-
-
+	
+if __name__ == "__main__":
+	Humidity = Memory(100)
+	Temperature = Memory(100)
+	
 
